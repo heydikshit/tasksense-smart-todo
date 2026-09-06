@@ -159,7 +159,9 @@ function QuestLogPage({
   const visibleTasks = useMemo(() => {
     const searched = searchTasks(tasks, searchTerm);
     const filtered = filterTasks(searched, filter);
-    return [...filtered].sort((a, b) => b.createdAt - a.createdAt);
+    return [...filtered].sort(
+  (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+);
   }, [tasks, searchTerm, filter]);
 
   return (
