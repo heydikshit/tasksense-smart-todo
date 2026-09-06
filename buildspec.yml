@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+      - AWS_REGION=ap-south-1
+      - ECR_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/frontend-cicd
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_URI
+
+  build:
+    commands:
+      - echo Building Docker image...
+      - docker build -t $ECR_URI:latest .
+
+  post_build:
+    commands:
+      - echo Pushing Docker image to ECR...
+      - docker push $ECR_URI:latest
+      - echo Creating imagedefinitions.json...
+      - printf '[{"name":"frontend","imageUri":"%s"}]' "$ECR_URI:latest" > imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
