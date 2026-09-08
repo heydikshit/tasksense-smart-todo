@@ -42,7 +42,7 @@ function HomePage({ onNavigate }: { onNavigate: (page: string) => void }) {
     <div className="page home-page">
       <div className="hero-section">
         <div className="hero-badge">▶ PLAYER 1 READY</div>
-        <h1 className="hero-title">TASKSENSE (CI/CD)</h1>
+        <h1 className="hero-title">TASKSENSE (CI/CD) Demo </h1>
         <p className="hero-subtitle">🎮 Your Quest Management System 🎮</p>
         
         <div className="hero-stats">
